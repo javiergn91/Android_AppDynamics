@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+apply plugin: 'adeum'// this line added for AppDynamics
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.javie.appdynamics3"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+adeum{   // configure the AppDynamics plugin
+
+    // Section 1
+    //add this information to allow the upload of ProGuard mapping files.  If you are using the EUM Cloud (SaaS), this automatically uploads your files with each build
+
+    account {
+        name '434671-ss-NoCompany-l0mk9ym1no2e'
+        licenseKey '383847d7-5017-44a2-a8b7-9b177d357a4b'
+    }
+
+    //add this information if you want to modify upload behavior.
+    proguardMappingFileUpload {
+        failBuildOnUploadFailure true //should build fail if upload fails? Defaults to false
+        enabled true //enables automatic uploads.  Defaults to true
+    }
+
+    // Section 2 - for an EUM Server (on premises)
+    //add this information to point to the on-prem EUM Server
+    //url "https://example.com:7001"
+
+    // Section 3 - optional.  To exclude named classes from instrumentation
+   // excludeClasses = ['android.support.multidex.*', 'okio.**']//Excludes all the classes in the android.support.multidex and okio packages.
+
+}
